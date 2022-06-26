@@ -3,14 +3,14 @@ import { defineNuxtConfig } from 'nuxt'
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-  head: {
-    script: [{
-      hid: 'gapi',
-      src: 'https://accounts.google.com/gsi/client',
-      defer: true,
-      async: true
-    }]
-  },
+  // head: {
+  //   script: [{
+  //     hid: 'gsi',
+  //     src: 'https://accounts.google.com/gsi/client',
+  //     defer: true,
+  //     async: true
+  //   }]
+  // },
   alias: {
     jquery: 'gridstack/dist/jq/jquery.js',
     'jquery-ui': 'gridstack/dist/jq/jquery-ui.js',
@@ -45,6 +45,10 @@ export default defineNuxtConfig({
       googleClientId: process.env.GOOGLE_CLIENT_ID,
       redirectUri: '',
     }
-  }
+  },
+  components: {
+    global: true,
+    dirs: ['~/components'],
+  },
 })
 
