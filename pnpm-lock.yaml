@@ -2,25 +2,25 @@ lockfileVersion: 5.4
 
 specifiers:
   '@googleapis/calendar': ^2.0.0
-  '@histoire/plugin-nuxt': ^0.7.8
+  '@histoire/plugin-nuxt': ^0.7.6
   '@iconify-json/logos': ^1.1.5
   '@nuxt/test-utils-edge': 3.0.0-rc.4-27588443.cf25525
-  '@unocss/nuxt': ^0.39.3
+  '@unocss/nuxt': ^0.39.0
   '@unocss/preset-attributify': ^0.39.3
   '@unocss/preset-icons': ^0.39.3
   '@unocss/preset-web-fonts': ^0.39.3
-  gapi-script: ^1.2.0
-  gridstack: ^5.1.1
-  histoire: ^0.7.8
+  googleapis: ^104.0.0
+  gridstack: ^5.1.0
+  histoire: ^0.7.6
   nuxt: 3.0.0-rc.3
-  sass: ^1.53.0
+  sass: ^1.52.3
   unocss: ^0.39.3
   vite: ^2.9.12
-  vitest: ^0.15.2
+  vitest: ^0.15.1
 
 dependencies:
   '@googleapis/calendar': 2.0.0
-  gapi-script: 1.2.0
+  googleapis: 104.0.0
   gridstack: 5.1.1
 
 devDependencies:
@@ -2828,10 +2828,6 @@ packages:
   /function-bind/1.1.1:
     resolution: {integrity: sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==}
 
-  /gapi-script/1.2.0:
-    resolution: {integrity: sha512-NKTVKiIwFdkO1j1EzcrWu/Pz7gsl1GmBmgh+qhuV2Ytls04W/Eg5aiBL91SCiBM9lU0PMu7p1hTVxhh1rPT5Lw==}
-    dev: false
-
   /gauge/2.7.4:
     resolution: {integrity: sha512-14x4kjc6lkD3ltw589k0NrPD6cCNTD6CWoVUNpB85+DrtONoZn+Rug6xZU5RvSC4+TZPxA5AnBibQYAvZn41Hg==}
     dependencies:
@@ -2874,11 +2870,36 @@ packages:
       - supports-color
     dev: false
 
+  /gaxios/5.0.0:
+    resolution: {integrity: sha512-VD/yc5ln6XU8Ch1hyYY6kRMBE0Yc2np3fPyeJeYHhrPs1i8rgnsApPMWyrugkl7LLoSqpOJVBWlQIa87OAvt8Q==}
+    engines: {node: '>=12'}
+    dependencies:
+      abort-controller: 3.0.0
+      extend: 3.0.2
+      https-proxy-agent: 5.0.1
+      is-stream: 2.0.1
+      node-fetch: 2.6.7
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   /gcp-metadata/4.3.1:
     resolution: {integrity: sha512-x850LS5N7V1F3UcV7PoupzGsyD6iVwTVvsh3tbXfkctZnBnjW5yu5z1/3k3SehF7TyoTIe78rJs02GMMy+LF+A==}
     engines: {node: '>=10'}
     dependencies:
       gaxios: 4.3.3
+      json-bigint: 1.0.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /gcp-metadata/5.0.0:
+    resolution: {integrity: sha512-gfwuX3yA3nNsHSWUL4KG90UulNiq922Ukj3wLTrcnX33BB7PwB1o0ubR8KVvXu9nJH+P5w1j2SQSNNqto+H0DA==}
+    engines: {node: '>=12'}
+    dependencies:
+      gaxios: 5.0.0
       json-bigint: 1.0.0
     transitivePeerDependencies:
       - encoding
@@ -3000,9 +3021,35 @@ packages:
       - supports-color
     dev: false
 
+  /google-auth-library/8.0.3:
+    resolution: {integrity: sha512-1eC6yaCrPfkv3bwtb3e0AOct7E7xR/uikDyXNo/j8Wd6a1ldRgAey5FmaDGNJnHNDPLtDiENQLYsA69eXOF5sA==}
+    engines: {node: '>=12'}
+    dependencies:
+      arrify: 2.0.1
+      base64-js: 1.5.1
+      ecdsa-sig-formatter: 1.0.11
+      fast-text-encoding: 1.0.4
+      gaxios: 5.0.0
+      gcp-metadata: 5.0.0
+      gtoken: 6.0.1
+      jws: 4.0.0
+      lru-cache: 6.0.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   /google-p12-pem/3.1.4:
     resolution: {integrity: sha512-HHuHmkLgwjdmVRngf5+gSmpkyaRI6QmOg77J8tkNBHhNEI62sGHyw4/+UkgyZEI7h84NbWprXDJ+sa3xOYFvTg==}
     engines: {node: '>=10'}
+    hasBin: true
+    dependencies:
+      node-forge: 1.3.1
+    dev: false
+
+  /google-p12-pem/4.0.0:
+    resolution: {integrity: sha512-lRTMn5ElBdDixv4a86bixejPSRk1boRtUowNepeKEVvYiFlkLuAJUVpEz6PfObDHYEKnZWq/9a2zC98xu62A9w==}
+    engines: {node: '>=12.0.0'}
     hasBin: true
     dependencies:
       node-forge: 1.3.1
@@ -3023,6 +3070,32 @@ packages:
       - supports-color
     dev: false
 
+  /googleapis-common/6.0.0:
+    resolution: {integrity: sha512-ieZouiuoyTHCckOgu7NU+n5UvA8kAzGTRRMQD+3bobCX9npnRvYDmTHZjM5lQLzf0cGz1xQ1ABCxGQ+xSsMkCw==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      extend: 3.0.2
+      gaxios: 4.3.3
+      google-auth-library: 8.0.3
+      qs: 6.10.5
+      url-template: 2.0.8
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /googleapis/104.0.0:
+    resolution: {integrity: sha512-5UItkob9BgC2S1Ekm16ZMiCxaD0bU0n3EauiNAMB7KejmlACDIfNnHiC0GUYUL9/fU2jrJx1ngY89oQP9ZAPeA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      google-auth-library: 8.0.3
+      googleapis-common: 6.0.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   /graceful-fs/4.2.10:
     resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==}
     dev: true
@@ -3037,6 +3110,18 @@ packages:
     dependencies:
       gaxios: 4.3.3
       google-p12-pem: 3.1.4
+      jws: 4.0.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /gtoken/6.0.1:
+    resolution: {integrity: sha512-J0vebk6u6i4rLTM0lQq25SdusCLMvujYNZeAouyPvSbGlcjw7P8L3W9INIFnlXUx+AUD7TDoM1mgdhzH+XX7DQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      gaxios: 4.3.3
+      google-p12-pem: 4.0.0
       jws: 4.0.0
     transitivePeerDependencies:
       - encoding
