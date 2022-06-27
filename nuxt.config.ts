@@ -3,14 +3,6 @@ import { defineNuxtConfig } from 'nuxt'
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-  // head: {
-  //   script: [{
-  //     hid: 'gsi',
-  //     src: 'https://accounts.google.com/gsi/client',
-  //     defer: true,
-  //     async: true
-  //   }]
-  // },
   alias: {
     jquery: 'gridstack/dist/jq/jquery.js',
     'jquery-ui': 'gridstack/dist/jq/jquery-ui.js',
@@ -43,12 +35,24 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       googleClientId: process.env.GOOGLE_CLIENT_ID,
-      redirectUri: '',
+      redirectUri: process.env.REDIRECT_URI,
     }
   },
   components: {
     global: true,
     dirs: ['~/components'],
   },
+  vite: {
+    server: {
+      proxy: {
+          '/google-auth': {
+          target: "https://accounts.google.com/o/oauth2/v2/auth",
+          changeOrigin: true,
+          secure: false,
+          rewrite: (path) => path.replace(/^\/google-auth/, ""),
+        }
+      }
+    }
+  }
 })
 
