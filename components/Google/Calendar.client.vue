@@ -6,6 +6,10 @@ const config = useRuntimeConfig()
 const clientId = config.googleClientId
 const secretId = config.googleClientSecret
 const redirectUri = config.redirectUri
+const scopes = [
+  'https://www.googleapis.com/auth/calendar.readonly',
+  'https://www.googleapis.com/auth/calendar'
+]
 
 const grid = useGrid()
 
@@ -26,7 +30,7 @@ async function handleCredentialResponse(event) {
       window.opener.postMessage(googleCode)
       console.log('sending to opener')
       // close the popup
-      window.close()
+      // window.close()
     }
 
     grid.addWidget(
@@ -44,7 +48,8 @@ const openPopup = () => {
     getGoogleAuthUrl({
       clientId,
       secretId,
-      redirectUri
+      redirectUri,
+      scopes
     }),
     '_blank',
     'width=600,height=600'

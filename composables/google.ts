@@ -6,13 +6,14 @@ const nonce = createUuid()
 interface GoogleAuth {
     clientId: string;
     redirectUri: string;
+    scopes?: string[];
     secretId?: string;
     googleAuthUri?: string;
     nonce?: string;
 }
 
 export const getGoogleAuthUrl = (param: GoogleAuth) => {
-    return `${googleAuthUri}?client_id=${param.clientId}&response_type=code&scope=openid+email&redirect_uri=${param.redirectUri}&nonce=${nonce}`
+    return `${googleAuthUri}?client_id=${param.clientId}&response_type=code&scope=${param.scopes.join(' ')}&redirect_uri=${param.redirectUri}&nonce=${nonce}`
 }
 
 export const getOauthCode = async (code: string, param: GoogleAuth) => {
