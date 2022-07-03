@@ -18,12 +18,14 @@ specifiers:
   unocss: ^0.39.3
   vite: ^2.9.12
   vitest: ^0.15.1
+  vue-cal: ^4.2.0
 
 dependencies:
   client-oauth2: 4.3.3
   google-auth-library: 8.0.3
   gridstack: 5.1.1
   jose: 4.8.1
+  vue-cal: 4.2.0
 
 devDependencies:
   '@histoire/plugin-nuxt': 0.7.8_svq6k7gky6xwzgga7fepibpocm
@@ -6149,6 +6151,10 @@ packages:
     dependencies:
       bundle-runner: 0.0.1
     dev: true
+
+  /vue-cal/4.2.0:
+    resolution: {integrity: sha512-oJPuIwluNzsu34o2PB8v80iwEt8BkAjLxHVnMtFopvoqQKwwKS/EKPj+TpoeFRILy2iUscDf86WukuGEm163ag==}
+    dev: false
 
   /vue-demi/0.13.1_vue@3.2.37:
     resolution: {integrity: sha512-xmkJ56koG3ptpLnpgmIzk9/4nFf4CqduSJbUM0OdPoU87NwRuZ6x49OLhjSa/fC15fV+5CbEnrxU4oyE022svg==}

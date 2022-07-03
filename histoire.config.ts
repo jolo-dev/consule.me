@@ -11,8 +11,8 @@ export default defineConfig({
         title: 'Layout'
       },
       {
-        id: 'dragndrop',
-        title: 'Drag & Drop Objects'
+        id: 'actions',
+        title: 'Actions'
       }
     ]
   },

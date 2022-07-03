@@ -1,76 +1,37 @@
-<script lang="ts" setup>
-import { useGrid } from '../../composables/useGrid'
-import { getGoogleAuthUrl, getOauthCode } from '../../composables/google'
+<script lang="ts">
+import { PropType } from 'vue'
+import VueCal from 'vue-cal'
+import 'vue-cal/dist/vuecal.css'
 
-const config = useRuntimeConfig()
-const clientId = config.googleClientId
-const secretId = config.googleClientSecret
-const redirectUri = config.redirectUri
-const scopes = [
-  'https://www.googleapis.com/auth/calendar.readonly',
-  'https://www.googleapis.com/auth/calendar'
-]
+interface Event {
+  start: string // String in a valid Date format
+  end: string // String in a valid Date format
+  title: string
+  content: string // '<i class="v-icon material-icons">shopping_cart</i>',
+  contentFull?: string // can be HTML
+  class: string
+}
 
-const grid = useGrid()
-
-async function handleCredentialResponse(event) {
-  try {
-    if (event.origin !== redirectUri) return
-    const params = new URLSearchParams(window.location.search)
-    const code = params.get('code') ?? ''
-    if (window.opener) {
-      // Exchange Code
-      // https://developers.google.com/identity/protocols/oauth2/openid-connect#exchangecode
-      const googleCode = await getOauthCode(code, {
-        clientId,
-        secretId,
-        redirectUri
-      })
-      console.log(googleCode)
-      window.opener.postMessage(googleCode)
-      console.log('sending to opener')
-      // close the popup
-      // window.close()
+export default defineComponent({
+  components: { VueCal },
+  props: {
+    events: {
+      type: Object as PropType<Event[]>
     }
-
-    grid.addWidget(
-      '<div class="grid-stack-item"><div class="grid-stack-item-content">hello</div></div>',
-      { w: 3 }
-    )
-    console.log(code)
-  } catch (error) {
-    console.error(error)
+  },
+  setup(props) {
+    props.events // <-- type: Event[]
   }
-}
-
-const openPopup = () => {
-  window.open(
-    getGoogleAuthUrl({
-      clientId,
-      secretId,
-      redirectUri,
-      scopes
-    }),
-    '_blank',
-    'width=600,height=600'
-  )
-}
-window.addEventListener(
-  'message',
-  async (event) => await handleCredentialResponse(event)
-)
+})
 </script>
 
-<style>
-iframe {
-  opacity: 0;
-}
-</style>
-
 <template>
-  <div
-    id="buttonDiv"
-    @click="openPopup"
-    class="i-logos-google-calendar text-3xl"
-  ></div>
+  <VueCal
+    active-view="week"
+    :events="events"
+    :disable-views="['month', 'years', 'year']"
+    :time-from="8 * 60"
+    :time-to="20 * 60"
+    :time-step="30"
+  />
 </template>

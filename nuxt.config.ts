@@ -43,6 +43,9 @@ export default defineNuxtConfig({
     global: true,
     dirs: ['~/components'],
   },
+  typescript: {
+    shim: false
+  },
   vite: {
     server: {
       proxy: {

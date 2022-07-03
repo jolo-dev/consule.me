@@ -31,6 +31,7 @@
     "client-oauth2": "^4.3.3",
     "google-auth-library": "^8.0.3",
     "gridstack": "^5.1.0",
-    "jose": "^4.8.1"
+    "jose": "^4.8.1",
+    "vue-cal": "^4.2.0"
   }
 }
