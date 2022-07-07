@@ -35,9 +35,11 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       googleClientId: process.env.GOOGLE_CLIENT_ID,
-      googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
       redirectUri: process.env.REDIRECT_URI,
-    }
+      googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      stepZenApiKey: process.env.STEP_ZEN_API_KEY,
+      stepzenGraphql: process.env.STEPZEN_GRAPHQL
+    },
   },
   components: {
     global: true,

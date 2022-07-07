@@ -1,6 +1,12 @@
 <script lang="ts" setup>
 import { useGrid } from '../../composables/useGrid'
-import { getGoogleAuthUrl, getOauthCode } from '../../composables/google'
+import {
+  getGoogleAuthUrl,
+  getOauthCode,
+  GoogleCalendarResult
+} from '../../composables/google'
+import { GoogleEvent } from './Calendar.client.vue'
+import ChooseCalendarClient from './ChooseCalendar.client.vue'
 
 const config = useRuntimeConfig()
 const clientId = config.googleClientId
@@ -14,12 +20,18 @@ const scopes = [
 ]
 
 const grid = useGrid()
+let events: GoogleEvent[]
+let calendars = ref<String[]>([])
+const accessToken = useAccessToken()
+const client = useUrqlClient()
 
 async function handleCredentialResponse(event: MessageEvent) {
   try {
     if (event.origin !== redirectUri) return
     const params = new URLSearchParams(window.location.search)
     const code = params.get('code') ?? ''
+    console.log(code)
+
     if (window.opener) {
       // Exchange Code
       // https://developers.google.com/identity/protocols/oauth2/openid-connect#exchangecode
@@ -28,18 +40,27 @@ async function handleCredentialResponse(event: MessageEvent) {
         secretId,
         redirectUri
       })
-      window.opener.postMessage(googleCode)
-      // close the popup
-      window.close()
+      if (googleCode) {
+        const query = `
+        {
+          googleCalendar(idToken: "${googleCode.access_token}") {
+            items {
+              id
+            }
+          }
+        }
+      `
+        const results = await client
+          .query<GoogleCalendarResult>(query)
+          .toPromise()
+
+        calendars.value = results.data.googleCalendar.items
+          // To Remove the Google generated calendar
+          .filter((cal) => cal.id.indexOf('v.calendar.google.com') === -1)
+          .map((cal) => cal.id)
+      }
+      accessToken.value = googleCode.access_token
     }
-    let accessToken = event.data['access_token']
-    accessToken
-      ? grid.addWidget(
-          '<div class="grid-stack-item"><div class="grid-stack-item-content"></div></div>',
-          { w: 3 }
-        )
-      : ''
-    console.log(accessToken)
   } catch (error) {
     console.error(error)
   }
@@ -63,13 +84,11 @@ window.addEventListener(
 )
 </script>
 
-<style>
-iframe {
-  opacity: 0;
-}
-</style>
-
 <template>
+  <!-- <Calendar v-if="events" :events="events" /> -->
+  <Teleport to="body">
+    <ChooseCalendarClient v-if="calendars" :calendars="calendars" />
+  </Teleport>
   <div
     id="buttonDiv"
     @click="openPopup"

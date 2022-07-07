@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import Calendar from '../components/Google/Calendar.client.vue'
-import CalendarAction from '../components/Google/CalendarAction.client.vue'
+import ChooseCalendar from '../components/Google/ChooseCalendar.client.vue'
 
 const events = [
   {
@@ -11,12 +11,17 @@ const events = [
     class: 'health'
   }
 ]
+
+const calendars = ['foo@bar.com', 'bar@baz.test']
 </script>
 
 <template>
   <Story group="actions" title="GoogleCalendar">
     <Variant title="Google Calendar">
       <Calendar :events="events" />
+    </Variant>
+    <Variant title="Choose Google Calendar">
+      <ChooseCalendar :calendars="calendars" />
     </Variant>
   </Story>
 </template>

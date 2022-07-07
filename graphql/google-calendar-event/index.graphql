@@ -76,9 +76,15 @@ type Start {
 }
 
 type Query {
-  googleCalendarEvents(calendarId: String!, idToken: String!): GoogleEvent
+  googleCalendarEvents(
+    calendarId: String!
+    idToken: String!
+    timeMax: String
+    timeMin: String
+    q: String
+  ): GoogleEvent
     @rest(
-      endpoint: "https://www.googleapis.com/calendar/v3/calendars/$calendarId;/events"
+      endpoint: "https://www.googleapis.com/calendar/v3/calendars/$calendarId/events"
       headers: [{ name: "authorization", value: "Bearer $idToken;" }]
     )
 }

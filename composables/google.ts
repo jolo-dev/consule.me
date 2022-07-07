@@ -1,5 +1,29 @@
 import { createUuid } from './createUuid'
 
+export interface GoogleCalendarResult {
+    googleCalendar: {
+      items: [{ id: string }]
+    }
+  }
+  
+export interface GoogleCalendarEventsResult {
+    googleCalendarEvents: {
+      items: [
+        {
+          summary: string
+          description: string
+          start: {
+            dateTime: string
+          }
+          end: {
+            dateTime: string
+          }
+        }
+      ]
+    }
+  }
+
+
 const googleAuthUri = 'https://accounts.google.com/o/oauth2/v2/auth'
 const nonce = createUuid()
 
@@ -17,7 +41,7 @@ export const getGoogleAuthUrl = (param: GoogleAuth) => {
 }
 
 export const getOauthCode = async (code: string, param: GoogleAuth) => {
-    const response = await $fetch('https://oauth2.googleapis.com/token', {
+    const response = await $fetch<{access_token: string}>('https://oauth2.googleapis.com/token', {
         method: 'POST',
         body: {
             code,
@@ -29,3 +53,5 @@ export const getOauthCode = async (code: string, param: GoogleAuth) => {
     })
     return response
 }
+
+export const useAccessToken = () => useState<string>('accessToken', () => '')
