@@ -1,12 +1,5 @@
 <script lang="ts" setup>
-import { useGrid } from '../../composables/useGrid'
-import {
-  getGoogleAuthUrl,
-  getOauthCode,
-  GoogleCalendarResult
-} from '../../composables/google'
-import { GoogleEvent } from './Calendar.client.vue'
-import ChooseCalendarClient from './ChooseCalendar.client.vue'
+import { getGoogleAuthUrl } from '../../composables/google'
 
 const config = useRuntimeConfig()
 const clientId = config.googleClientId
@@ -18,49 +11,11 @@ const scopes = [
   'https://www.googleapis.com/auth/calendar.events.readonly',
   'https://www.googleapis.com/auth/calendar.events'
 ]
-
-const grid = useGrid()
-let events: GoogleEvent[]
-let calendars = ref<String[]>([])
-const accessToken = useAccessToken()
-const client = useUrqlClient()
+let events = []
 
 async function handleCredentialResponse(event: MessageEvent) {
   try {
-    if (event.origin !== redirectUri) return
-    const params = new URLSearchParams(window.location.search)
-    const code = params.get('code') ?? ''
-    console.log(code)
-
-    if (window.opener) {
-      // Exchange Code
-      // https://developers.google.com/identity/protocols/oauth2/openid-connect#exchangecode
-      const googleCode = await getOauthCode(code, {
-        clientId,
-        secretId,
-        redirectUri
-      })
-      if (googleCode) {
-        const query = `
-        {
-          googleCalendar(idToken: "${googleCode.access_token}") {
-            items {
-              id
-            }
-          }
-        }
-      `
-        const results = await client
-          .query<GoogleCalendarResult>(query)
-          .toPromise()
-
-        calendars.value = results.data.googleCalendar.items
-          // To Remove the Google generated calendar
-          .filter((cal) => cal.id.indexOf('v.calendar.google.com') === -1)
-          .map((cal) => cal.id)
-      }
-      accessToken.value = googleCode.access_token
-    }
+    events = event.data ?? throwExpression('No Calendar data')
   } catch (error) {
     console.error(error)
   }
@@ -74,21 +29,19 @@ const openPopup = () => {
       redirectUri,
       scopes
     }),
-    '_blank',
+    'message',
     'width=600,height=600'
   )
 }
 window.addEventListener(
   'message',
-  async (event) => await handleCredentialResponse(event)
+  async (event) => await handleCredentialResponse(event),
+  false
 )
 </script>
 
 <template>
-  <!-- <Calendar v-if="events" :events="events" /> -->
-  <Teleport to="body">
-    <ChooseCalendarClient v-if="calendars" :calendars="calendars" />
-  </Teleport>
+  <!-- <GoogleCalendar v-if="events" :events="events" /> -->
   <div
     id="buttonDiv"
     @click="openPopup"

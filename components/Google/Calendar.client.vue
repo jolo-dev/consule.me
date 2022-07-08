@@ -25,7 +25,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    props.events // <-- type: Event[]
+    props.events // <-- type: GoogleEvent[]
   }
 })
 

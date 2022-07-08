@@ -1,4 +1,4 @@
-import { createUuid } from './createUuid'
+import { createUuid } from './utils'
 
 export interface GoogleCalendarResult {
     googleCalendar: {

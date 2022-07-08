@@ -9,17 +9,19 @@ const props = defineProps({
 })
 const client = useUrqlClient()
 
-function chooseCalendar(name: string) {
-  window.postMessage(name)
-  console.log(name)
+async function chooseCalendar(name: string) {
   const accessToken = useAccessToken()
-  console.log(accessToken.value)
-
-      const eventsResult = await client
-            .query<GoogleCalendarEventsResult>(
-              `
+  const now = new Date()
+  const [oneWeekBefore, oneWeekAfter] =
+    calTimeFromNowOneWeekBeforeAndOneWeekAfter(now)
+  const query = `
             {
-              googleCalendarEvents(calendarId: "${name}", idToken : "${accessToken}") {
+              googleCalendarEvents(
+                calendarId: "${name}"
+                idToken : "${accessToken.value}"
+                timeMin: "${oneWeekBefore.toISOString()}"
+                timeMax: "${oneWeekAfter.toISOString()}"
+              ) {
                 items {
                   summary
                   description
@@ -33,27 +35,26 @@ function chooseCalendar(name: string) {
               }
             }
           `
-            )
-            .toPromise()
-          console.log(eventsResult.data)
+  const eventsResult = await client
+    .query<GoogleCalendarEventsResult>(query)
+    .toPromise()
 
-          const events = eventsResult.data.googleCalendarEvents.items
-            .filter((e) => {
-              return e.start !== null
-            })
-            .map((e) => {
-              return {
-                start: e.start.dateTime,
-                end: e.end.dateTime,
-                title: e.summary,
-                content: e.description
-              }
-            })
+  const events = eventsResult.data.googleCalendarEvents.items
+    .filter((e) => {
+      return e.start !== null
+    })
+    .map((e) => {
+      return {
+        start: e.start.dateTime,
+        end: e.end.dateTime,
+        title: e.summary,
+        content: e.description
+      }
+    })
 
-            console.log(events);
-
-        }
-  //   window.close()
+  console.log(events)
+  window.opener.postMessage(events, '*')
+  window.close()
 }
 </script>
 
