@@ -1,4 +1,4 @@
-import { createUuid } from './utils'
+import { OAuth } from './oauth'
 
 export interface GoogleCalendarResult {
     googleCalendar: {
@@ -13,10 +13,12 @@ export interface GoogleCalendarEventsResult {
           summary: string
           description: string
           start: {
-            dateTime: string
+            dateTime: string,
+            date: string
           }
           end: {
-            dateTime: string
+            dateTime: string,
+            date: string
           }
         }
       ]
@@ -25,33 +27,7 @@ export interface GoogleCalendarEventsResult {
 
 
 const googleAuthUri = 'https://accounts.google.com/o/oauth2/v2/auth'
-const nonce = createUuid()
 
-interface GoogleAuth {
-    clientId: string;
-    redirectUri: string;
-    scopes?: string[];
-    secretId?: string;
-    googleAuthUri?: string;
-    nonce?: string;
+export const getGoogleAuthUrl = (params: Omit<OAuth, 'authUri'>) => {
+  return getOauthUrl({ authUri: googleAuthUri ,...params})
 }
-
-export const getGoogleAuthUrl = (param: GoogleAuth) => {
-    return `${googleAuthUri}?client_id=${param.clientId}&response_type=code&scope=${param.scopes.join(' ')}&redirect_uri=${param.redirectUri}&nonce=${nonce}`
-}
-
-export const getOauthCode = async (code: string, param: GoogleAuth) => {
-    const response = await $fetch<{access_token: string}>('https://oauth2.googleapis.com/token', {
-        method: 'POST',
-        body: {
-            code,
-            client_id: param.clientId,
-            client_secret: param.secretId,
-            redirect_uri: param.redirectUri,
-            grant_type: 'authorization_code'
-        }
-    })
-    return response
-}
-
-export const useAccessToken = () => useState<string>('accessToken', () => '')

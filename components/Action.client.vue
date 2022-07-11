@@ -14,6 +14,7 @@ const SidebarAction = resolveComponent(props.name!)
     bg-transparent
     border-none
     cursor-pointer
+    p-2
     class="grid-stack-item"
   >
     <component :is="SidebarAction"></component>

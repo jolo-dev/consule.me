@@ -27,9 +27,11 @@ async function chooseCalendar(name: string) {
                   description
                   start {
                     dateTime
+                    date
                   }
                   end {
                     dateTime
+                    date
                   }
                 }
               }
@@ -44,15 +46,24 @@ async function chooseCalendar(name: string) {
       return e.start !== null
     })
     .map((e) => {
+      const currentYear = now.getFullYear()
       return {
-        start: e.start.dateTime,
-        end: e.end.dateTime,
+        start: e.start.dateTime
+          ? e.start.dateTime.replace('T', ' ')
+          : new Date(
+              new Date(e.start.date).setFullYear(currentYear)
+            ).toDateString(),
+        end: e.end.dateTime
+          ? e.end.dateTime.replace('T', ' ')
+          : new Date(
+              new Date(e.end.date).setFullYear(currentYear)
+            ).toDateString(),
         title: e.summary,
-        content: e.description
+        content: e.description,
+        allDay: e.start.dateTime === null && e.end.dateTime === null
       }
     })
 
-  console.log(events)
   window.opener.postMessage(events, '*')
   window.close()
 }

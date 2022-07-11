@@ -1,6 +1,7 @@
 schema
   @sdl(
     files: [
+      "graphql/github-issues/index.graphql"
       "graphql/google-calendar-event/index.graphql"
       "graphql/google-calendar/index.graphql"
     ]

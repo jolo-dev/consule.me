@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { getOauthCode, GoogleCalendarResult } from '../composables/google'
+import { getOauthCode } from '../composables/oauth'
+import { GoogleCalendarResult } from '~~/composables/google'
 import ChooseCalendar from '../components/Google/ChooseCalendar.client.vue'
 import Loading from '../components/Loading.vue'
 const route = useRoute()
@@ -10,17 +11,22 @@ const client = useUrqlClient()
 const code = route.query.code as string
 const clientId = config.googleClientId
 const secretId = config.googleClientSecret
-const redirectUri = config.redirectUri
+const redirectUri = config.googleRedirectUri
+const googleTokenUri = 'https://oauth2.googleapis.com/token'
 let calendars = ref<string[]>()
 let loading
 
 onMounted(async () => {
   loading = true
-  const googleCode = await getOauthCode(code, {
-    clientId,
-    secretId,
-    redirectUri
-  })
+  const googleCode = await getOauthCode(
+    code,
+    {
+      clientId,
+      secretId,
+      redirectUri
+    },
+    googleTokenUri
+  )
 
   if (googleCode) {
     const query = `

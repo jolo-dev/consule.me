@@ -35,10 +35,13 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       googleClientId: process.env.GOOGLE_CLIENT_ID,
-      redirectUri: process.env.REDIRECT_URI,
+      googleRedirectUri: process.env.GOOGLE_REDIRECT_URI,
       googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
       stepZenApiKey: process.env.STEP_ZEN_API_KEY,
-      stepzenGraphql: process.env.STEPZEN_GRAPHQL
+      stepzenGraphql: process.env.STEPZEN_GRAPHQL,
+      githubClientId: process.env.GITHUB_CLIENT_ID,
+      githubClientSecret: process.env.GITHUB_CLIENT_SECRET,
+      githubRedirectUri: process.env.GITHUB_REDIRECT_URI,
     },
   },
   components: {
@@ -51,11 +54,11 @@ export default defineNuxtConfig({
   vite: {
     server: {
       proxy: {
-          '/google-auth': {
-          target: "https://accounts.google.com/o/oauth2/v2/auth",
+          '/github-auth': {
+          target: "https://github.com/login/oauth/access_token",
           changeOrigin: true,
           secure: false,
-          rewrite: (path) => path.replace(/^\/google-auth/, ""),
+          rewrite: (path) => path.replace(/^\/github-auth/, ""),
         }
       }
     }

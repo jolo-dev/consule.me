@@ -28,6 +28,9 @@ export default defineConfig({
       },
       storyMatch: ['stories/*.story.vue'],
       vite: {
+        server: {
+          port: 3333,
+        },
         plugins: [
           Unocss({
           presets: [
