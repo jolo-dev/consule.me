@@ -42,6 +42,8 @@ export default defineNuxtConfig({
       githubClientId: process.env.GITHUB_CLIENT_ID,
       githubClientSecret: process.env.GITHUB_CLIENT_SECRET,
       githubRedirectUri: process.env.GITHUB_REDIRECT_URI,
+      supabaseUrl: process.env.SUPABASE_URL,
+      supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
     },
   },
   components: {

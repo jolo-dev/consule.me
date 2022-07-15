@@ -4,20 +4,18 @@ export function addEvents(grid: GridStack, id: number) {
     let g = (id !== undefined ? 'grid' + id + ' ' : '');
   
     grid.on('added removed change', function(event, items: GridStackNode[]) {
-      let str = '';
-      items.forEach(function(item) { str += ' (' + item.x + ',' + item.y + ' ' + item.w + 'x' + item.h + ')'; });
-      console.log(g + event.type + ' ' + items.length + ' items (x,y w h):' + str );
+      items.forEach((item) => {
+        const allGridItems = grid.getGridItems()
+        // A little Timeout otherwise the DOM is not updated yet
+        setTimeout(() => {
+          const content = allGridItems[allGridItems.length - 1].innerHTML  
+          const latestAdded = allGridItems[allGridItems.length - 1]
+
+          grid.update(latestAdded, {content});
+        }, 500);
+        
+      });
     });
-  
-    // grid.on('enable', function(event) {
-    //   let grid = event.target;
-    //   console.log(g + 'enable');
-    // });
-  
-    // grid.on('disable', function(event) {
-    //   let grid = event.target;
-    //   console.log(g + 'disable');
-    // });
   
     grid.on('dragstart', function(event, el: GridItemHTMLElement) {
       let node = el.gridstackNode;

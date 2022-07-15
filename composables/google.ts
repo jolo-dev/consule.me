@@ -1,3 +1,4 @@
+import { GoogleEvent } from '~~/components/Google/Calendar.client.vue'
 import { OAuth } from './oauth'
 
 export interface GoogleCalendarResult {
@@ -31,3 +32,5 @@ const googleAuthUri = 'https://accounts.google.com/o/oauth2/v2/auth'
 export const getGoogleAuthUrl = (params: Omit<OAuth, 'authUri'>) => {
   return getOauthUrl({ authUri: googleAuthUri ,...params})
 }
+
+export const useGoogleEvents = () => useState<GoogleEvent[]>('googleEvents', () => [])

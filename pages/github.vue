@@ -1,6 +1,9 @@
 <script lang="ts" setup>
+import { GithubIssueResult } from '~~/composables/github';
+
 const route = useRoute()
 const config = useRuntimeConfig()
+const client = useUrqlClient()
 
 const code = route.query.code as string
 const clientId = config.public.githubClientId
@@ -23,10 +26,31 @@ onMounted(async () => {
 
   if (githubCode) {
     console.log(githubCode)
+    const query = `
+        {
+          githubIssues(idToken: "${githubCode.access_token}") {
+            repository {
+              url
+              name
+            }
+            url
+            number
+            title
+            created_at
+            state
+          }
+        }
+      `
+    const results = await client.query<GithubIssueResult>(query).toPromise()
+    window.opener.postMessage({view: 'GithubIssues', events: results.data.githubIssues}, '*')
+    window.close()
   }
 })
 </script>
 
 <template>
-  <h1>Welcome To Github</h1>
+  <div flex place-content-center h-screen flex-col justify-center items-center>
+    <h1>Fetching..</h1>
+    <Loading />
+  </div>
 </template>

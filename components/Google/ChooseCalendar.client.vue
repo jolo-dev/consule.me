@@ -63,8 +63,10 @@ async function chooseCalendar(name: string) {
         allDay: e.start.dateTime === null && e.end.dateTime === null
       }
     })
-
-  window.opener.postMessage(events, '*')
+  window.opener.postMessage({view: 'GoogleCalendar', events}, '*')
+  const foo = useGoogleEvents()
+  foo.value = events
+  
   window.close()
 }
 </script>

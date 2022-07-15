@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "stepzen start & nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "story:dev": "histoire dev",
