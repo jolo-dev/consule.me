@@ -65,7 +65,7 @@ function scrollToTop() {
     :time-step="60"
     :min-cell-width="100"
     :on-event-click="onEventClick"
-    :show-all-day-events="[true]"
+    :show-all-day-events="true"
   />
   <Teleport to="body">
     <!-- use the modal component, pass in the prop -->

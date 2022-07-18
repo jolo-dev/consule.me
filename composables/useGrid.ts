@@ -4,15 +4,16 @@ export function addEvents(grid: GridStack, id: number) {
     let g = (id !== undefined ? 'grid' + id + ' ' : '');
   
     grid.on('added removed change', function(event, items: GridStackNode[]) {
-      items.forEach((item) => {
+      items.forEach(() => {
         const allGridItems = grid.getGridItems()
         // A little Timeout otherwise the DOM is not updated yet
         setTimeout(() => {
-          const content = allGridItems[allGridItems.length - 1].innerHTML  
+          const content = allGridItems[allGridItems.length - 1].innerHTML
           const latestAdded = allGridItems[allGridItems.length - 1]
-
+          console.log(content);
+          
           grid.update(latestAdded, {content});
-        }, 500);
+        }, 15000);
         
       });
     });
@@ -76,5 +77,5 @@ export function addEvents(grid: GridStack, id: number) {
       float: true,
       acceptWidgets: true,
       removable: true,
-      margin: '5px'
+      margin: '2px'
     })

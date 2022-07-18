@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "@histoire/plugin-nuxt": "^0.7.6",
+    "@iconify-json/carbon": "^1.1.6",
     "@iconify-json/logos": "^1.1.5",
     "@nuxt/test-utils-edge": "3.0.0-rc.4-27588443.cf25525",
     "@unocss/nuxt": "^0.39.0",
