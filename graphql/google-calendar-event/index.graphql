@@ -1,0 +1,90 @@
+type AttendeesEntry {
+  displayName: String
+  email: String
+  organizer: Boolean
+  responseStatus: String
+  self: Boolean
+}
+type Creator {
+  displayName: String
+  email: String
+  self: Boolean
+}
+type End {
+  date: Date
+  dateTime: DateTime
+  timeZone: String
+}
+type GoogleEvent {
+  accessRole: String
+  defaultReminders: [DefaultRemindersEntry]
+  etag: String
+  items: [EventItemsEntry]
+  kind: String
+  nextPageToken: String
+  summary: String
+  timeZone: String
+  updated: DateTime
+}
+type EventItemsEntry {
+  attendees: [AttendeesEntry]
+  colorId: Int
+  created: DateTime
+  creator: Creator
+  description: String
+  end: End
+  etag: String
+  eventType: String
+  htmlLink: String
+  iCalUID: String
+  id: String
+  kind: String
+  location: String
+  organizer: Organizer
+  originalStartTime: OriginalStartTime
+  recurrence: [String]
+  recurringEventId: String
+  reminders: Reminders
+  sequence: Int
+  start: Start
+  status: String
+  summary: String
+  transparency: String
+  updated: DateTime
+}
+type Organizer {
+  displayName: String
+  email: String
+  self: Boolean
+}
+type OriginalStartTime {
+  dateTime: DateTime
+  timeZone: String
+}
+type OverridesEntry {
+  method: String
+  minutes: Int
+}
+type Reminders {
+  overrides: [OverridesEntry]
+  useDefault: Boolean
+}
+type Start {
+  date: Date
+  dateTime: DateTime
+  timeZone: String
+}
+
+type Query {
+  googleCalendarEvents(
+    calendarId: String!
+    idToken: String!
+    timeMax: String
+    timeMin: String
+    q: String
+  ): GoogleEvent
+    @rest(
+      endpoint: "https://www.googleapis.com/calendar/v3/calendars/$calendarId/events"
+      headers: [{ name: "authorization", value: "Bearer $idToken;" }]
+    )
+}

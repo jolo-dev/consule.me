@@ -1,16 +1,36 @@
-import { createUuid } from './createUuid'
+import { GoogleEvent } from '~~/components/Google/Calendar.client.vue'
+import { OAuth } from './oauth'
+
+export interface GoogleCalendarResult {
+    googleCalendar: {
+      items: [{ id: string }]
+    }
+  }
+  
+export interface GoogleCalendarEventsResult {
+    googleCalendarEvents: {
+      items: [
+        {
+          summary: string
+          description: string
+          start: {
+            dateTime: string,
+            date: string
+          }
+          end: {
+            dateTime: string,
+            date: string
+          }
+        }
+      ]
+    }
+  }
+
 
 const googleAuthUri = 'https://accounts.google.com/o/oauth2/v2/auth'
-const nonce = createUuid()
 
-interface GoogleAuth {
-    clientId: string;
-    redirectUri: string;
-    secretId?: string;
-    googleAuthUri?: string;
-    nonce?: string;
+export const getGoogleAuthUrl = (params: Omit<OAuth, 'authUri'>) => {
+  return getOauthUrl({ authUri: googleAuthUri ,...params})
 }
 
-export const getGoogleAuthUrl = (param: GoogleAuth) => {
-    return `${googleAuthUri}?client_id=${param.clientId}&response_type=code&scope=openid+email&redirect_uri=${param.redirectUri}&nonce=${nonce}`
-}
+export const useGoogleEvents = () => useState<GoogleEvent[]>('googleEvents', () => [])

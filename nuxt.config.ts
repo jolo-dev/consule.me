@@ -3,14 +3,6 @@ import { defineNuxtConfig } from 'nuxt'
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-  // head: {
-  //   script: [{
-  //     hid: 'gsi',
-  //     src: 'https://accounts.google.com/gsi/client',
-  //     defer: true,
-  //     async: true
-  //   }]
-  // },
   alias: {
     jquery: 'gridstack/dist/jq/jquery.js',
     'jquery-ui': 'gridstack/dist/jq/jquery-ui.js',
@@ -43,13 +35,35 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       googleClientId: process.env.GOOGLE_CLIENT_ID,
+      googleRedirectUri: process.env.GOOGLE_REDIRECT_URI,
       googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      redirectUri: process.env.REDIRECT_URI,
-    }
+      stepZenApiKey: process.env.STEP_ZEN_API_KEY,
+      stepzenGraphql: process.env.STEPZEN_GRAPHQL,
+      githubClientId: process.env.GITHUB_CLIENT_ID,
+      githubClientSecret: process.env.GITHUB_CLIENT_SECRET,
+      githubRedirectUri: process.env.GITHUB_REDIRECT_URI,
+      supabaseUrl: process.env.SUPABASE_URL,
+      supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
+    },
   },
   components: {
     global: true,
     dirs: ['~/components'],
   },
+  typescript: {
+    shim: false
+  },
+  vite: {
+    server: {
+      proxy: {
+          '/github-auth': {
+          target: "https://github.com/login/oauth/access_token",
+          changeOrigin: true,
+          secure: false,
+          rewrite: (path) => path.replace(/^\/github-auth/, ""),
+        }
+      }
+    }
+  }
 })
 

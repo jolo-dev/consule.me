@@ -1,17 +1,16 @@
-# Nuxt 3 Minimal Starter
+# consule.me
 
-Look at the [nuxt 3 documentation](https://v3.nuxtjs.org) to learn more.
+An app that brings all your apps in one dashboard.
+
+## Pre-requisite
+
+We used [PNPM](https://pnpm.io/), thank me later 😉
 
 ## Setup
 
 Make sure to install the dependencies:
 
 ```bash
-# yarn
-yarn install
-
-# npm
-npm install
 
 # pnpm
 pnpm install --shamefully-hoist
@@ -22,7 +21,27 @@ pnpm install --shamefully-hoist
 Start the development server on http://localhost:3000
 
 ```bash
-npm run dev
+pnpm dev
+```
+
+## Run the Design System
+
+```bash
+pnpm run story:dev
+```
+
+## Test
+
+We use [vitest](https://vitest.dev/) for running unit tests.
+
+```bash
+pnpm run test
+```
+
+### Run test in watch mode
+
+```bash
+pnpm run test:watch
 ```
 
 ## Production
@@ -30,7 +49,7 @@ npm run dev
 Build the application for production:
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 Locally preview production build:
@@ -39,4 +58,10 @@ Locally preview production build:
 npm run preview
 ```
 
-Checkout the [deployment documentation](https://v3.nuxtjs.org/guide/deploy/presets) for more information.
+## Tech Stack
+
+- [Nuxt 3](https://v3.nuxtjs.org/)
+- [UnoCSS](https://uno.antfu.me/play/)
+- [histoire](https://histoire.dev/)
+- [Stepzen](https://stepzen.com/)
+- [Urql](https://formidable.com/open-source/urql/docs/)

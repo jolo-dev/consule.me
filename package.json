@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "stepzen start & nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "story:dev": "histoire dev",
@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "@histoire/plugin-nuxt": "^0.7.6",
+    "@iconify-json/carbon": "^1.1.6",
     "@iconify-json/logos": "^1.1.5",
     "@nuxt/test-utils-edge": "3.0.0-rc.4-27588443.cf25525",
     "@unocss/nuxt": "^0.39.0",
@@ -28,8 +29,9 @@
     "vitest": "^0.15.1"
   },
   "dependencies": {
-    "@googleapis/calendar": "^2.0.0",
-    "googleapis": "^104.0.0",
-    "gridstack": "^5.1.0"
+    "@urql/vue": "^0.6.3",
+    "graphql": "^16.5.0",
+    "gridstack": "^5.1.0",
+    "vue-cal": "^4.2.0"
   }
 }

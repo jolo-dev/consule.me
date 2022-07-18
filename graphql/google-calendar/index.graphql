@@ -1,0 +1,45 @@
+type ConferenceProperties {
+  allowedConferenceSolutionTypes: [String]
+}
+type DefaultRemindersEntry {
+  method: String
+  minutes: Int
+}
+type Google {
+  etag: String
+  items: [ItemsEntry]
+  kind: String
+  nextSyncToken: String
+}
+type ItemsEntry {
+  accessRole: String
+  backgroundColor: String
+  colorId: Int
+  conferenceProperties: ConferenceProperties
+  defaultReminders: [DefaultRemindersEntry]
+  description: String
+  etag: String
+  foregroundColor: String
+  id: String
+  kind: String
+  notificationSettings: NotificationSettings
+  primary: Boolean
+  selected: Boolean
+  summary: String
+  timeZone: String
+}
+type NotificationSettings {
+  notifications: [NotificationsEntry]
+}
+type NotificationsEntry {
+  method: String
+  type: String
+}
+
+type Query {
+  googleCalendar(idToken: String!): Google
+    @rest(
+      endpoint: "https://www.googleapis.com/calendar/v3/users/me/calendarList"
+      headers: [{ name: "authorization", value: "Bearer $idToken;" }]
+    )
+}
